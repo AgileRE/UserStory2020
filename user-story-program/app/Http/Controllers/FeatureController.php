@@ -59,7 +59,8 @@ class FeatureController extends Controller
       # [START fs_add_doc_data_with_auto_id]
       $data = [
           'name' => $request->name,
-          'description' => $request->description
+          'description' => $request->description,
+          'scenarios' => [],
       ];
       $addedDocRef = $db->collection('projects')->document($project_id)->collection('userStories')->add($data);
       // dd('Added document with ID:'.$addedDocRef->id());
