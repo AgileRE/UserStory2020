@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Google\Cloud\Firestore\FirestoreClient;
@@ -76,20 +77,18 @@ class ScenarioController extends Controller
       'projectId' => 'userstory-b84d4',
       ]);
       //simpan skenario
-      $scenario = [
-          'name' => $request->name,
-      ];
       $feature = $db->collection('projects')->document($project_id)->collection('userStories')
-                       ->document($feature_id)->snapshot();
+                       ->document($feature_id);
       //save Given
-      $feature-> scenarios[]= 
-       [
+      $feature->scenarios[]=
+      [
+        'name' => $request->name,
         'given'=>$request->given,
         'when'=>$request->when,
         'then'=>$request->then,
-      ]
-      $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)
-                         ->set($feature);
+      ];
+      // dd($feature);
+      $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)->set($feature);
       // dd('Added document with ID:'.$addedDocRef->id());
       return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$addedDocRef->id()])->with(['success'=>'User Story berhasil dibuat']);
     }

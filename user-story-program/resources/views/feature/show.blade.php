@@ -49,7 +49,7 @@
                                         </button>
                                       </div>
                                     </div>
-                                    <form id="createScenarioForm" action="{{ route('scenario.store',['project_id'=>$project->id()]) }}" method="post" enctype="multipart/form-data">
+                                    <form id="createScenarioForm" action="{{ route('scenario.store',['project_id'=>$project->id(),'feature_id'=>$feature->id()]) }}" method="post" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="row mb-3">
                                       <div class="col-8">
