@@ -78,8 +78,9 @@ class ScenarioController extends Controller
       ]);
       //simpan skenario
       $feature = $db->collection('projects')->document($project_id)->collection('userStories')
-                       ->document($feature_id);
+                       ->document($feature_id->snapshot()->data();
       //save Given
+      // dd($feature);
       $feature->scenarios[]=
       [
         'name' => $request->name,
