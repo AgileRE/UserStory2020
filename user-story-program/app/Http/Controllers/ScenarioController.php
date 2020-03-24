@@ -79,17 +79,17 @@ class ScenarioController extends Controller
       $scenario = [
           'name' => $request->name,
       ];
-      $save_scenario = $db->collection('projects')->document($project_id)->collection('userStories')
-                       ->document($feature_id)->collection('scenarios')->add($scenario);
+      $feature = $db->collection('projects')->document($project_id)->collection('userStories')
+                       ->document($feature_id)->snapshot();
       //save Given
-      for ($i=0; $i <count($request->given) ; $i++) {
-        $given = [
-          ''
-          'content' => $request->given[$i],
-        ];
-        $save_scenario = $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)
-                         ->collection('scenarios')->document($save_scenario)->collection('given')->add($scenario);
-      }
+      $feature-> scenarios[]= 
+       [
+        'given'=>$request->given,
+        'when'=>$request->when,
+        'then'=>$request->then,
+      ]
+      $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)
+                         ->set($feature);
       // dd('Added document with ID:'.$addedDocRef->id());
       return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$addedDocRef->id()])->with(['success'=>'User Story berhasil dibuat']);
     }
