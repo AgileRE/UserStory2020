@@ -20,21 +20,21 @@
                     <div class="section_title text-left mb_70">
                         <!-- judul -->
                         <div class="mb-3">
-                          <h5 class="mb-0 text-secondary">Project {{$project['name']}}</h5>
+                          <h5 class="mb-1 text-secondary">Project {{$project['name']}}</h5>
                           <h3 class="mb-0 pb-0">User Story {{$feature['name']}}
-                            <a href="#" class="text-secondary ml-1 mb-0 pb-0" style="font-size:16px;" data-toggle="modal" data-target="#editProject"><i class="fa fa-pen mb-0 pb-0"></i></a>
+                            <a href="#" class="text-secondary ml-1 mb-0 pb-0" style="font-size:16px;" data-toggle="modal" data-target="#editFeature"><i class="fa fa-pen mb-0 pb-0"></i></a>
                           </h3>
                           <!-- <span class="badge badge-pill badge-warning font-weight-normal py-1 px-3">Project {{$project['name']}}</span> -->
                         </div>
                         <!-- deskripsi -->
                         <div class="">
                           <h5 class="mb-0">Deskripsi</h5>
-                          <p class="mb-5">{{$feature['description']}}</p>
+                          <p class="mb-5 text-justify">{{$feature['description']}}</p>
                         </div>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createScenario">
                           Tambah Skenario
                         </button>
-                        <!-- Modal -->
+                        <!-- Modal buat skenario -->
                         <div class="modal fade" id="createScenario" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
                           <div class="modal-dialog" role="document" style="margin:10vh 20vw 0 20vw">
                               <div class="modal-content" style="width:60vw;">
@@ -160,59 +160,290 @@
                            </div>
                         </div>
                         <!-- end modal -->
+                        <!-- Modal edit user story -->
+                        <div class="modal fade" id="editFeature" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                          <div class="modal-dialog" role="document" style="margin:10vh 20vw 0 20vw">
+                              <div class="modal-content" style="width:60vw;">
+                                  <div class="modal-body px-4 py-4">
+                                    <div class="row mb-4">
+                                      <div class="col-md-8 col-8">
+                                        <h5 class="modal-title mt-1">Edit User Story</h5>
+                                      </div>
+                                      <div class="col-md-4 col-4">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <form id="editFeatureForm" action="{{ route('feature.update',['project_id'=>$project->id(),'id'=>$feature->id()]) }}" method="post" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <div class="row mb-3">
+                                      <div class="col-8">
+                                          <div class="form-group">
+                                            <label class="text-body">Nama User Story</label>
+                                            <input type="text" name="name" value="{{$feature['name']}}" class="form-control">
+                                          </div>
+                                          <div class="form-group">
+                                            <label class="text-body">Deskripsi Project</label>
+                                            <textarea class="form-control" name="description" rows="3">{{$feature['description']}}</textarea>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    </form>
+                                    <div class="row">
+                                    <div class="col align-self-end">
+                                      <div align="right">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+                                        <button type="submit" form="editFeatureForm" class="btn btn-info btn-sm">Simpan</button>
+                                      </div>
+                                    </div>
+                                    </div>
+                                  </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- end modal -->
                     </div>
                 </div>
             </div>
 
             <!-- card skenario -->
+            @for($i=0;$i<count($feature['scenarios']);$i++)
             <div class="row">
               <div class="col-12">
                 <div class="single_place shadow-lg rounded">
                     <div class="place_info mx-3 my-2">
                       <div class="row">
                         <div class="col-8">
-                          <h4 class="mt-1">Skenario 1</h4>
+                          <h4 class="mt-1">{{$feature['scenarios'][$i]['name']}}</h4>
                         </div>
                         <div class="col-4">
                           <div class="float-right">
-                            <a href="#" class="btn btn-sm btn-info">Edit</a>
-                            <a href="#" class="btn btn-sm btn-danger">Hapus</a>
+                            <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editScenario{{$i}}">Edit</a>
+                            <!-- Modal edit -->
+                            <div class="modal fade" id="editScenario{{$i}}" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                              <div class="modal-dialog" role="document" style="margin:10vh 20vw 0 20vw">
+                                  <div class="modal-content" style="width:60vw;">
+                                      <div class="modal-body px-4 py-4">
+                                        <div class="row mb-4">
+                                          <div class="col-md-8 col-8">
+                                            <h5 class="modal-title mt-1">Edit Skenario</h5>
+                                          </div>
+                                          <div class="col-md-4 col-4">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top:5px;">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                        </div>
+                                        <form id="editScenarioForm{{$i}}" action="{{ route('scenario.update',['project_id'=>$project->id(),'feature_id'=>$feature->id(),'id'=>$i]) }}" method="post" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        <div class="row mb-3">
+                                          <div class="col-8">
+                                              <div class="form-group">
+                                                <label class="text-body">Nama Skenario</label>
+                                                <input type="text" name="name" value="{{$feature['scenarios'][$i]['name']}}" class="form-control">
+                                              </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-8">
+                                            <div class="multi-field-wrapper">
+                                              <div class="multi-fields">
+                                                <div class="multi-field">
+                                                  <div class="row">
+                                                    <div class="col-3">
+                                                      <p class="mt-1 text-body">Given</p>
+                                                    </div>
+                                                    <div class="col-9">
+                                                      <div class="input-group mb-3">
+                                                        <input type="text" name="given[]" value="{{$feature['scenarios'][$i]['given'][0]}}" class="form-control">
+                                                        <div class="input-group-append">
+                                                          <button class="btn btn-danger remove-field" type="button">Hapus</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                @for($j=1;$j<count($feature['scenarios'][$i]['given']);$j++)
+                                                <div class="multi-field">
+                                                  <div class="row">
+                                                    <div class="col-3">
+                                                      <p class="mt-1 text-body">And</p>
+                                                    </div>
+                                                    <div class="col-9">
+                                                      <div class="input-group mb-3">
+                                                        <input type="text" name="given[]" value="{{$feature['scenarios'][$i]['given'][$j]}}" class="form-control">
+                                                        <div class="input-group-append">
+                                                          <button class="btn btn-danger remove-field" type="button">Hapus</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                @endfor
+                                              </div>
+                                              <div class="row mb-3">
+                                                <div class="col-3"></div>
+                                                <div class="col-9">
+                                                    <button type="button" class="add-field btn btn-info btn-sm">Tambah And</button>
+                                                </div>
+                                              </div>
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-8">
+                                            <div class="multi-field-wrapper">
+                                              <div class="multi-fields">
+                                                <div class="multi-field">
+                                                  <div class="row">
+                                                    <div class="col-3">
+                                                      <p class="mt-1 text-body">When</p>
+                                                    </div>
+                                                    <div class="col-9">
+                                                      <div class="input-group mb-3">
+                                                        <input type="text" name="when[]" value="{{$feature['scenarios'][$i]['when'][0]}}" class="form-control">
+                                                        <div class="input-group-append">
+                                                          <button class="btn btn-danger remove-field" type="button">Hapus</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                @for($j=1;$j<count($feature['scenarios'][$i]['when']);$j++)
+                                                <div class="multi-field">
+                                                  <div class="row">
+                                                    <div class="col-3">
+                                                      <p class="mt-1 text-body">And</p>
+                                                    </div>
+                                                    <div class="col-9">
+                                                      <div class="input-group mb-3">
+                                                        <input type="text" name="when[]" value="{{$feature['scenarios'][$i]['when'][$j]}}" class="form-control">
+                                                        <div class="input-group-append">
+                                                          <button class="btn btn-danger remove-field" type="button">Hapus</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                @endfor
+                                              </div>
+                                              <div class="row mb-3">
+                                                <div class="col-3"></div>
+                                                <div class="col-9">
+                                                    <button type="button" class="add-field btn btn-info btn-sm">Tambah And</button>
+                                                </div>
+                                              </div>
+                                          </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-8">
+                                            <div class="multi-field-wrapper">
+                                              <div class="multi-fields">
+                                                <div class="multi-field">
+                                                  <div class="row">
+                                                    <div class="col-3">
+                                                      <p class="mt-1 text-body">Then</p>
+                                                    </div>
+                                                    <div class="col-9">
+                                                      <div class="input-group mb-3">
+                                                        <input type="text" name="then[]" value="{{$feature['scenarios'][$i]['then'][0]}}" class="form-control">
+                                                        <div class="input-group-append">
+                                                          <button class="btn btn-danger remove-field" type="button">Hapus</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                @for($j=1;$j<count($feature['scenarios'][$i]['then']);$j++)
+                                                <div class="multi-field">
+                                                  <div class="row">
+                                                    <div class="col-3">
+                                                      <p class="mt-1 text-body">And</p>
+                                                    </div>
+                                                    <div class="col-9">
+                                                      <div class="input-group mb-3">
+                                                        <input type="text" name="then[]" value="{{$feature['scenarios'][$i]['then'][$j]}}" class="form-control">
+                                                        <div class="input-group-append">
+                                                          <button class="btn btn-danger remove-field" type="button">Hapus</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                @endfor
+                                              </div>
+                                              <div class="row mb-3">
+                                                <div class="col-3"></div>
+                                                <div class="col-9">
+                                                    <button type="button" class="add-field btn btn-info btn-sm">Tambah And</button>
+                                                </div>
+                                              </div>
+                                          </div>
+                                          </div>
+                                        </div>
+                                        </form>
+                                        <div class="row">
+                                        <div class="col align-self-end">
+                                          <div align="right">
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+                                            <button type="submit" form="editScenarioForm{{$i}}" class="btn btn-info btn-sm">Simpan</button>
+                                          </div>
+                                        </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                               </div>
+                            </div>
+                            <!-- end modal edit -->
+                            <a href="{{route('scenario.destroy',['project_id'=>$project->id(),'feature_id'=>$feature->id(),'id'=>$i])}}" class="btn btn-sm btn-danger">Hapus</a>
                           </div>
                         </div>
                       </div>
                       <hr>
                       <table class="table table-borderless">
                         <tbody>
+                          <!-- given -->
                           <tr>
                             <td style="width:20%;"><strong>Given</strong></td>
-                            <td>I am on "login.html"</td>
+                            <td>{{$feature['scenarios'][$i]['given'][0]}}</td>
                           </tr>
+                          @for($j=1;$j<count($feature['scenarios'][$i]['given']);$j++)
+                          <tr>
+                            <td style="width:20%;"><strong>And</strong></td>
+                            <td>{{$feature['scenarios'][$i]['given'][$j]}}</td>
+                          </tr>
+                          @endfor
+                          <!-- when -->
                           <tr>
                             <td style="width:20%;"><strong>When</strong></td>
-                            <td>I am in 'form:login'</td>
+                            <td>{{$feature['scenarios'][$i]['when'][0]}}</td>
                           </tr>
+                          @for($j=1;$j<count($feature['scenarios'][$i]['when']);$j++)
                           <tr>
                             <td style="width:20%;"><strong>And</strong></td>
-                            <td>I am fill 'input:email'</td>
+                            <td>{{$feature['scenarios'][$i]['when'][$j]}}</td>
                           </tr>
-                          <tr>
-                            <td style="width:20%;"><strong>And</strong></td>
-                            <td>I am fill 'input:password'</td>
-                          </tr>
-                          <tr>
-                            <td style="width:20%;"><strong>And</strong></td>
-                            <td>I am press 'button:login'</td>
-                          </tr>
+                          @endfor
+                          <!-- then -->
                           <tr>
                             <td style="width:20%;"><strong>Then</strong></td>
-                            <td>I am should be on "index.html"</td>
+                            <td>{{$feature['scenarios'][$i]['then'][0]}}</td>
                           </tr>
+                          @for($j=1;$j<count($feature['scenarios'][$i]['then']);$j++)
+                          <tr>
+                            <td style="width:20%;"><strong>And</strong></td>
+                            <td>{{$feature['scenarios'][$i]['then'][$j]}}</td>
+                          </tr>
+                          @endfor
                         </tbody>
                       </table>
                     </div>
                 </div>
               </div>
             </div>
+            @endfor
             <!-- end card scenario -->
 
         </div>

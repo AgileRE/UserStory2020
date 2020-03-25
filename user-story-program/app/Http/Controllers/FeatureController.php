@@ -63,9 +63,9 @@ class FeatureController extends Controller
           'description' => $request->description,
           'scenarios' => [],
       ];
-      $addedDocRef = $db->collection('projects')->document($project_id)->collection('userStories')->add($data);
+      $save = $db->collection('projects')->document($project_id)->collection('userStories')->add($data);
       // dd('Added document with ID:'.$addedDocRef->id());
-      return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$addedDocRef->id()])->with(['success'=>'User Story berhasil dibuat']);
+      return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$save->id()])->with(['success'=>'User Story berhasil dibuat']);
     }
 
     /**
@@ -105,9 +105,34 @@ class FeatureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $project_id, $id)
     {
-        //
+      //validasi
+      $message = [
+        'name.required' => 'Anda belum mengisi nama project',
+        'description.required' => 'Anda belum mengisi deskripsi project',
+       ];
+       $rules = [
+          'name' => 'required',
+          'description' => 'required',
+       ];
+       $validator = $this->validator($request->all(), $rules, $message);
+       if ($validator->fails()){
+           return Redirect::back()->withInput()->with(['error' => $validator->errors()->first()]);
+       }
+       //proses simpan
+      $db = new FirestoreClient([
+      'projectId' => 'userstory-b84d4',
+      ]);
+      //ambil data
+      $feature = $db->collection('projects')->document($project_id)->collection('userStories')
+                 ->document($id)->snapshot()->data();
+      $feature['name'] = $request->name;
+      $feature['description'] = $request->description;
+      //simpan data
+      $db->collection('projects')->document($project_id)->collection('userStories')->document($id)->set($feature);
+      // return
+      return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$id])->with(['success'=>'User Story berhasil diperbarui']);
     }
 
     /**
@@ -116,8 +141,15 @@ class FeatureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($project_id,$id)
     {
-        //
+      // Create the Cloud Firestore client
+      $db = new FirestoreClient([
+          'projectId' => 'userstory-b84d4',
+      ]);
+      //hapus data
+      $feature = $db->collection('projects')->document($project_id)->collection('userStories')->document($id)->delete();
+      //return
+      return redirect()->route('feature.index',['project_id'=>$project_id])->with(['success'=>'User Story berhasil dihapus']);
     }
 }

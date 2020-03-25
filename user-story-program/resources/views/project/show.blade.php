@@ -19,7 +19,7 @@
             <div class="row ml-3">
                 <div class="col-lg-8">
                     <div class="section_title text-left mb_70">
-                        <h3>{{$project['name']}}
+                        <h3>Project {{$project['name']}}
                           <a href="#" class="text-secondary ml-1" style="font-size:16px;" data-toggle="modal" data-target="#editProject"><i class="fa fa-pen"></i></a>
                         </h3>
                         <p class="mb-3">{{$project['description']}}</p>
@@ -84,7 +84,8 @@
                                         </button>
                                       </div>
                                     </div>
-                                    <form>
+                                    <form id="editProjectForm" action="{{ route('project.update',['id'=>$project->id()]) }}" method="post" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
                                     <div class="row mb-3">
                                       <div class="col-8">
                                           <div class="form-group">
@@ -102,9 +103,7 @@
                                     <div class="col align-self-end">
                                       <div align="right">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-                                        <a href="#">
-                                           <button type="button" class="btn btn-info btn-sm">Simpan</button>
-                                        </a>
+                                        <button type="submit" form="editProjectForm" class="btn btn-info btn-sm">Simpan</button>
                                       </div>
                                     </div>
                                     </div>
@@ -146,7 +145,7 @@
                             <td>{{$document['name']}}</td>
                             <td>
                               <a href="{{route('feature.show',['project_id'=>$project->id(),'feature_id'=>$document->id()])}}" class="btn btn-sm btn-info">Lihat</a>
-                              <a href="#" class="btn btn-sm btn-danger">Hapus</a>
+                              <a href="{{route('feature.destroy',['project_id'=>$project->id(),'id'=>$document->id()])}}" class="btn btn-sm btn-danger">Hapus</a>
                             </td>
                           </tr>
                           <?php $i++; ?>

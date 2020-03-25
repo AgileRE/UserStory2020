@@ -78,20 +78,21 @@ class ScenarioController extends Controller
       ]);
       //simpan skenario
       $feature = $db->collection('projects')->document($project_id)->collection('userStories')
-                       ->document($feature_id->snapshot()->data();
+                       ->document($feature_id)->snapshot()->data();
       //save Given
       // dd($feature);
-      $feature->scenarios[]=
+      $scenarios =
       [
         'name' => $request->name,
         'given'=>$request->given,
         'when'=>$request->when,
         'then'=>$request->then,
       ];
-      // dd($feature);
+      array_push($feature['scenarios'],$scenarios);
+      // dd($feature['scenarios']);
       $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)->set($feature);
       // dd('Added document with ID:'.$addedDocRef->id());
-      return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$addedDocRef->id()])->with(['success'=>'User Story berhasil dibuat']);
+      return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$feature_id])->with(['success'=>'User Story berhasil dibuat']);
     }
 
     /**
@@ -123,9 +124,61 @@ class ScenarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$project_id,$feature_id,$id)
     {
-        //
+      // dd($request);
+      //validasi
+      $message = [
+        'name.required' => 'Anda belum mengisi nama project',
+        'given.*.required' =>  'Ada skenario given yang belum diisi',
+        'when.*.required' =>  'Ada skenario when yang belum diisi',
+        'then.*.required' =>  'Ada skenario then yang belum diisi',
+       ];
+       $rules = [
+          'name' => 'required',
+       ];
+       if($request->has('given')){
+           $nbr = count($request->given) - 1;
+           foreach(range(0, $nbr) as $index) {
+             $rules[ 'given.' . $index] = 'required';
+           }
+       }
+       if($request->has('when')){
+           $nbr = count($request->given) - 1;
+           foreach(range(0, $nbr) as $index) {
+             $rules[ 'when.' . $index] = 'required';
+           }
+       }
+       if($request->has('then')){
+           $nbr = count($request->given) - 1;
+           foreach(range(0, $nbr) as $index) {
+             $rules[ 'then.' . $index] = 'required';
+           }
+       }
+       $validator = $this->validator($request->all(), $rules, $message);
+       if ($validator->fails()){
+           return Redirect::back()->withInput()->with(['error' => $validator->errors()->first()]);
+       }
+       //proses simpan
+      $db = new FirestoreClient([
+      'projectId' => 'userstory-b84d4',
+      ]);
+      //simpan skenario
+      $feature = $db->collection('projects')->document($project_id)->collection('userStories')
+                       ->document($feature_id)->snapshot()->data();
+      //save Given
+      // dd($feature);
+      $scenarios =
+      [
+        'name' => $request->name,
+        'given'=>$request->given,
+        'when'=>$request->when,
+        'then'=>$request->then,
+      ];
+      $feature['scenarios'][$id] = $scenarios;
+      $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)->set($feature);
+      // dd('Added document with ID:'.$addedDocRef->id());
+      return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$feature_id])->with(['success'=>'User Story berhasil diperbarui']);
     }
 
     /**
@@ -134,8 +187,20 @@ class ScenarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($project_id, $feature_id, $id)
     {
-        //
+      //proses simpan
+     $db = new FirestoreClient([
+     'projectId' => 'userstory-b84d4',
+     ]);
+     //ambil data
+     $feature = $db->collection('projects')->document($project_id)->collection('userStories')
+                ->document($feature_id)->snapshot()->data();
+     // hapus data
+     unset($feature['scenarios'][$id]);
+     // dd($feature['scenarios']);
+     $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)->set($feature);
+     // dd('Added document with ID:'.$addedDocRef->id());
+     return redirect()->route('feature.show',['project_id'=>$project_id,'feature_id'=>$feature_id])->with(['success'=>'User Story berhasil dihapus']);
     }
 }

@@ -63,14 +63,14 @@ class ProjectController extends Controller
       $db = new FirestoreClient([
       'projectId' => 'userstory-b84d4',
       ]);
-      # [START fs_add_doc_data_with_auto_id]
       $data = [
           'name' => $request->name,
           'description' => $request->description
       ];
-      $addedDocRef = $db->collection('projects')->add($data);
-      // dd('Added document with ID:'.$addedDocRef->id());
-      return redirect()->route('project.show',['id'=>$addedDocRef->id()])->with(['success'=>'Project berhasil dibuat']);
+      //simpan data
+      $save = $db->collection('projects')->add($data);
+      //return
+      return redirect()->route('project.show',['project_id'=>$save->id()])->with(['success'=>'Project berhasil dibuat']);
     }
 
     /**
@@ -112,7 +112,31 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      //validasi
+      $message = [
+        'name.required' => 'Anda belum mengisi nama project',
+        'description.required' => 'Anda belum mengisi deskripsi project',
+       ];
+       $rules = [
+          'name' => 'required',
+          'description' => 'required',
+       ];
+       $validator = $this->validator($request->all(), $rules, $message);
+       if ($validator->fails()){
+           return Redirect::back()->withInput()->with(['error' => $validator->errors()->first()]);
+       }
+       //proses simpan
+      $db = new FirestoreClient([
+      'projectId' => 'userstory-b84d4',
+      ]);
+      //ambil data
+      $project = $db->collection('projects')->document($id)->snapshot()->data();
+      $project['name'] = $request->name;
+      $project['description'] = $request->description;
+      //simpan data
+      $db->collection('projects')->document($id)->set($project);
+      // return
+      return redirect()->route('project.show',['project_id'=>$id])->with(['success'=>'Project berhasil diperbarui']);
     }
 
     /**
@@ -123,6 +147,14 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+      // dd($id);
+      // Create the Cloud Firestore client
+      $db = new FirestoreClient([
+          'projectId' => 'userstory-b84d4',
+      ]);
+      //hapus data
+      $db->collection('projects')->document($id)->delete();
+      //return
+      return redirect()->route('project.index')->with(['success'=>'Project berhasil dihapus']);
     }
 }
