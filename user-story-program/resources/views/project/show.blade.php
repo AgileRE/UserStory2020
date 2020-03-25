@@ -121,7 +121,7 @@
                     <div class="place_info mx-3 my-2">
                       <div class="row mb-3">
                         <div class="col-12 col-md-8">
-                          <input type="text" class="form-control" placeholder="Cari...">
+                          <input id="mySearch" type="search" class="form-control" placeholder="Cari...">
                         </div>
                         <div class="col-12 col-md-4 pl-0">
                           <i class="fas fa-search mt-2" style="font-size:20px;"></i>
@@ -140,7 +140,7 @@
                             $i = 1;
                           ?>
                           @foreach($feature as $document)
-                          <tr>
+                          <tr class="this-search">
                             <th scope="row">{{$i}}</th>
                             <td>{{$document['name']}}</td>
                             <td>
@@ -152,6 +152,9 @@
                           @endforeach
                         </tbody>
                         </table>
+                        <div align="center">
+                          <h5 id="not-found" class="text-secondary my-5"></h5>
+                        </div>
                     </div>
                 </div>
               </div>
@@ -188,4 +191,32 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
       </div>
     </div>
   </div>
+@endsection
+@section('script')
+<script>
+// untuk cari data
+$(document).ready(function(){
+  $("#mySearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".this-search").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+    if($('.this-search:visible').length===0){
+      $('#not-found').show().html("User Story tidak ditemukan");
+    }else{
+      $('#not-found').hide();
+    }
+  });
+});
+// untuk hitung jumlah baris
+var count = $('.this-search').length;
+checkCountData();
+function checkCountData(){
+  if(count==0){
+    $('#not-found').show().html("Belum ada data");
+  }else{
+    $('#not-found').hide();
+  }
+}
+</script>
 @endsection
