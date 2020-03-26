@@ -27,8 +27,10 @@ composer update
 ```
 ```
 NOTE:
-Apabila command prompt / windows powershell menampilkan error "google/cloud-firestore v1.11.1 requires ext-grpc * -> the requested PHP extension grpc is missing from your system", maka matikan Apache pada XAMPP. Kemudian download library grpc (php_grpc.dll) dan masukkan kedalam folder extension php. Tutorial dapat dilihat di https://stackoverflow.com/questions/50222772/installing-grpc-for-localhost/50222981
-setelah selesai, hidupkan Apache pada XAMPP dan ulangi langkah 3.
+Apabila command prompt / windows powershell menampilkan error "google/cloud-firestore v1.11.1 requires ext-grpc * -> the requested PHP extension grpc is missing from your system",
+maka matikan Apache pada XAMPP. Kemudian download library grpc (php_grpc.dll) dan masukkan kedalam folder extension php.
+Tutorial dapat dilihat di https://stackoverflow.com/questions/50222772/installing-grpc-for-localhost/50222981
+Setelah selesai, hidupkan Apache pada XAMPP dan ulangi langkah 3.
 
 ```
 
