@@ -8,26 +8,33 @@ Sebelum anda melakukan installasi program ini di komputer anda, download beberap
 1. Php versi 7.2
 2. Composer
 3. Code Editor (Atom / VS Code / lainnya)
+4. XAMPP
 
 Berikut adalah petunjuk instalasi program dalam komputer masing-masing:
 
 1. Clone / Download project ini ke komputer anda ke direktori yang anda inginkan
 
-2. Buka command promp, arahkan direktori ke folder project yang telah di clone pada tahap 1, lalu arahkan ke folder "user-story-program"
+2. Buka command prompt, arahkan direktori ke folder project yang telah di clone pada tahap 1, lalu arahkan ke folder "user-story-program"
 
 ---Langkah Alternatif
 2. Buka folder yang telah di clone / download pada tahap 1, lalu klik kanan + shift pada folder "user-story-program", klik open powershell window here
 
-3. jalankan perintah berikut pada command promp / windows powershell
+3. Hidupkan XAMPP, start Apache dan MySQL. Kemudian jalankan perintah berikut pada command prompt / windows powershell
 
 ```
-composer Update
+composer update
+
+```
+```
+NOTE:
+Apabila command prompt / windows powershell menampilkan error "google/cloud-firestore v1.11.1 requires ext-grpc * -> the requested PHP extension grpc is missing from your system", maka matikan Apache pada XAMPP. Kemudian download library grpc (php_grpc.dll) dan masukkan kedalam folder extension php. Tutorial dapat dilihat di https://stackoverflow.com/questions/50222772/installing-grpc-for-localhost/50222981
+setelah selesai, hidupkan Apache pada XAMPP dan ulangi langkah 3.
 
 ```
 
 4. Buka file ".env.example" pada folder "user-story-program" menggunakan code editor, lalu save as dengan nama ".env"
 
-5. Jalankan perintah berikut pada command promp / windows powershell
+5. Jalankan perintah berikut pada command prompt / windows powershell
 
 ```
 php artisan key:generate
