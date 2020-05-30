@@ -14,7 +14,6 @@
 
     <!-- CSS here -->
     <!-- <link rel="stylesheet" href="{{asset('admin/css/bootstrap.min.css')}}"> -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('admin/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/magnific-popup.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/font-awesome.min.css')}}">
@@ -26,9 +25,16 @@
     <link rel="stylesheet" href="{{asset('admin/css/slick.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/slicknav.css')}}">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
     @yield('style')
+    <style media="screen">
+    .form-control{
+      width: 100%;
+      display: block;
+    }
+    </style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 <body>

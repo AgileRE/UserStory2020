@@ -42,11 +42,13 @@ class FeatureController extends Controller
     {
       //validasi
       $message = [
-        'name.required' => 'Anda belum mengisi nama project',
-        'description.required' => 'Anda belum mengisi deskripsi project',
+        'name.required' => 'Anda belum mengisi nama user story',
+        'role.required' => 'Anda belum mengisi peran user story',
+        'description.required' => 'Anda belum mengisi deskripsi user story',
        ];
        $rules = [
           'name' => 'required',
+          'role' => 'required',
           'description' => 'required',
        ];
        $validator = $this->validator($request->all(), $rules, $message);
@@ -60,6 +62,7 @@ class FeatureController extends Controller
       # [START fs_add_doc_data_with_auto_id]
       $data = [
           'name' => $request->name,
+          'role' => $request->role,
           'description' => $request->description,
           'scenarios' => [],
       ];
@@ -83,8 +86,13 @@ class FeatureController extends Controller
       # [START fs_get_document]
       $project = $db->collection('projects')->document($project_id)->snapshot();
       $feature = $db->collection('projects')->document($project_id)->collection('userStories')->document($feature_id)->snapshot();
+      $command_given = $db->collection('commands')->document(1)->snapshot();
+      $command_when = $db->collection('commands')->document(2)->snapshot();
+      $command_then = $db->collection('commands')->document(3)->snapshot();
+      // dd(count($feature['scenarios'][0]['given']));
+      // dd($command_given['command_list']);
       // dd($project);
-      return view ('feature.show',compact('project','feature'));
+      return view ('feature.show',compact('project','feature','command_given','command_when','command_then'));
     }
 
     /**

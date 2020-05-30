@@ -23,9 +23,12 @@
                           <a href="#" class="text-secondary ml-1" style="font-size:16px;" data-toggle="modal" data-target="#editProject"><i class="fa fa-pen"></i></a>
                         </h3>
                         <p class="mb-3">{{$project['description']}}</p>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createFeature">
+                        <a href="" type="button" class="btn btn-info" data-toggle="modal" data-target="#createFeature">
                           Tambah User Story
-                        </button>
+                        </a>
+                        <a href="" type="button" class="btn btn-info" data-toggle="modal" data-target="#createFeature">
+                          Generate User Interface
+                        </a>
                         <!-- Modal tambah user story -->
                         <div class="modal fade" id="createFeature" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
                           <div class="modal-dialog" role="document" style="margin:10vh 20vw 0 20vw">
@@ -47,7 +50,11 @@
                                       <div class="col-8">
                                           <div class="form-group">
                                             <label class="text-body">Nama User Story</label>
-                                            <input type="text" name="name" class="form-control">
+                                            <input type="text" name="name" class="form-control" required>
+                                          </div>
+                                          <div class="form-group">
+                                            <label class="text-body">Peran dalam User Story</label>
+                                            <input type="text" name="role" class="form-control" required>
                                           </div>
                                           <div class="form-group">
                                             <label class="text-body">Deskripsi User Story</label>
@@ -115,6 +122,23 @@
                     </div>
                 </div>
             </div>
+            <!-- alert -->
+            @if ($message = Session::get('error'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <i class="fas fa-exclamation-circle"></i> <strong>Tidak Berhasil!</strong> {{$message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <i class="fas fa-check-circle"></i> <strong>Berhasil!</strong> {{$message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
             <div class="row">
               <div class="col-12">
                 <div class="single_place shadow-lg rounded">
@@ -131,7 +155,8 @@
                         <thead>
                           <tr>
                             <th scope="col">No</th>
-                            <th scope="col" style="width:70%">Nama User Story</th>
+                            <th scope="col" style="width:50%">Nama User Story</th>
+                            <th scope="col">Peran</th>
                             <th scope="col">Aksi</th>
                           </tr>
                         </thead>
@@ -143,6 +168,7 @@
                           <tr class="this-search">
                             <th scope="row">{{$i}}</th>
                             <td>{{$document['name']}}</td>
+                            <td>{{$document['role']}}</td>
                             <td>
                               <a href="{{route('feature.show',['project_id'=>$project->id(),'feature_id'=>$document->id()])}}" class="btn btn-sm btn-info">Lihat</a>
                               <a href="{{route('feature.destroy',['project_id'=>$project->id(),'id'=>$document->id()])}}" class="btn btn-sm btn-danger">Hapus</a>

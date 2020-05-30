@@ -85,6 +85,23 @@
                     </div>
                 </div>
             </div>
+            <!-- alert -->
+            @if ($message = Session::get('error'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <i class="fas fa-exclamation-circle"></i> <strong>Tidak Berhasil!</strong> {{$message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <i class="fas fa-check-circle"></i> <strong>Berhasil!</strong> {{$message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
             <div class="row">
               <div class="col-12">
                 <div class="single_place shadow-lg rounded">

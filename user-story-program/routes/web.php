@@ -34,6 +34,11 @@ Route::group(['prefix' => '/'], function () {
       // Route::get('/{scenario_id}', 'ScenarioController@show')->name('scenario.show');
       Route::post('/update/{id}', 'ScenarioController@update')->name('scenario.update');
       Route::get('/delete/{id}', 'ScenarioController@destroy')->name('scenario.destroy');
+      //kelola konten skenario
+      Route::group(['prefix' => '{scenario_id}/content'], function () {
+        Route::post('/create', 'ScenarioController@storeContent')->name('scenario.content.store');
+        Route::get('/delete/{type}/{id}', 'ScenarioController@destroyContent')->name('scenario.content.destroy');
+      });
     });
   });
 });
