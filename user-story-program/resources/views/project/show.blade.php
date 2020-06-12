@@ -26,7 +26,7 @@
                         <a href="" type="button" class="btn btn-info" data-toggle="modal" data-target="#createFeature">
                           Tambah User Story
                         </a>
-                        <a href="" type="button" class="btn btn-info" data-toggle="modal" data-target="#createFeature">
+                        <a href="{{route('project.generate',['id'=>$project->id()])}}" type="button" class="btn btn-info">
                           Generate User Interface
                         </a>
                         <!-- Modal tambah user story -->

@@ -293,7 +293,7 @@
                           <tr>
                             <th scope="col">Type</th>
                             <th scope="col">Command</th>
-                            <th scope="col">Parameter <span class="text-secondary" style="font-size:12px;">(url/form_name/button_name)</span></th>
+                            <th scope="col">Parameter <span class="text-secondary" style="font-size:12px;">(url/form_element/button)</span></th>
                             <th scope="col">Value</th>
                             <th scope="col">Aksi</th>
                           </tr>
@@ -379,16 +379,16 @@
                                         <div class="col-8">
                                             <div class="form-group">
                                               <label class="text-body">Tipe Step</label>
-                                              <select name="type" id="type_list" class="form-control" onchange="commandList();">
+                                              <select name="type" id="type_list{{$i}}" class="form-control" onchange="commandList({{$i}});">
                                                 <option selected disabled>Pilih Salah Satu</option>
                                                 <option value="given">Given</option>
                                                 <option value="when">When</option>
                                                 <option value="then">Then</option>
                                               </select>
                                             </div>
-                                            <div class="form-group mt-5" id="command_container">
+                                            <div class="form-group mt-5" id="command_container{{$i}}">
                                               <label class="text-body">Command</label>
-                                              <select name="command" id="command_list" class="form-control">
+                                              <select name="command" id="command_list{{$i}}" class="form-control">
                                               </select>
                                             </div>
                                             <div class="form-group mt-5">
@@ -472,12 +472,14 @@ $('.multi-field-wrapper').each(function() {
   });
 });
 
-function commandList(){
-  var selectType = document.getElementById("type_list");
+function commandList(id){
+  var selectType = document.getElementById("type_list"+id);
   var type = selectType.options[selectType.selectedIndex].value;
   var list = "<option selected disabled>Pilih Salah Satu</option>";
   var list_select ="<li data-value='Pilih Salah Satu' class='option disabled focus'>Pilih Salah Satu</li>";
   if(type=='given'){
+    list = "<option selected disabled>Pilih Salah Satu</option>";
+    list_select ="<li data-value='Pilih Salah Satu' class='option disabled focus'>Pilih Salah Satu</li>";
     var command_given = [
       @foreach($command_given['command_list'] as $command)
         '{{$command}}',
@@ -489,10 +491,12 @@ function commandList(){
     for (i = 0; i < command_given.length; i++) {
       list_select += "<li data-value='"+command_given[i]+"' class='option'>"+command_given[i]+"</li>"
     }
-    document.getElementById("command_list").innerHTML = list;
-    document.getElementById("command_container").getElementsByClassName('nice-select')[0].getElementsByClassName('current')[0].innerHTML = 'Pilih Salah Satu';
-    document.getElementById("command_container").getElementsByClassName('nice-select')[0].getElementsByClassName('list')[0].innerHTML = list_select;
+    document.getElementById("command_list"+id).innerHTML = list;
+    document.getElementById("command_container"+id).getElementsByClassName('nice-select')[0].getElementsByClassName('current')[0].innerHTML = 'Pilih Salah Satu';
+    document.getElementById("command_container"+id).getElementsByClassName('nice-select')[0].getElementsByClassName('list')[0].innerHTML = list_select;
   }else if(type=='when'){
+    list = "<option selected disabled>Pilih Salah Satu</option>";
+    list_select ="<li data-value='Pilih Salah Satu' class='option disabled focus'>Pilih Salah Satu</li>";
     var command_when = [
       @foreach($command_when['command_list'] as $command)
         '{{$command}}',
@@ -504,11 +508,13 @@ function commandList(){
     for (i = 0; i < command_when.length; i++) {
       list_select += "<li data-value='"+command_when[i]+"' class='option'>"+command_when[i]+"</li>"
     }
-    document.getElementById("command_list").innerHTML = list;
-    document.getElementById("command_container").getElementsByClassName('nice-select')[0].getElementsByClassName('current')[0].innerHTML = 'Pilih Salah Satu';
-    document.getElementById("command_container").getElementsByClassName('nice-select')[0].getElementsByClassName('list')[0].innerHTML = list_select;
+    document.getElementById("command_list"+id).innerHTML = list;
+    document.getElementById("command_container"+id).getElementsByClassName('nice-select')[0].getElementsByClassName('current')[0].innerHTML = 'Pilih Salah Satu';
+    document.getElementById("command_container"+id).getElementsByClassName('nice-select')[0].getElementsByClassName('list')[0].innerHTML = list_select;
   }
   else if(type=='then'){
+    list = "<option selected disabled>Pilih Salah Satu</option>";
+    list_select ="<li data-value='Pilih Salah Satu' class='option disabled focus'>Pilih Salah Satu</li>";
     var command_then = [
       @foreach($command_then['command_list'] as $command)
         '{{$command}}',
@@ -520,9 +526,9 @@ function commandList(){
     for (i = 0; i < command_then.length; i++) {
       list_select += "<li data-value='"+command_then[i]+"' class='option'>"+command_then[i]+"</li>"
     }
-    document.getElementById("command_list").innerHTML = list;
-    document.getElementById("command_container").getElementsByClassName('nice-select')[0].getElementsByClassName('current')[0].innerHTML = 'Pilih Salah Satu';
-    document.getElementById("command_container").getElementsByClassName('nice-select')[0].getElementsByClassName('list')[0].innerHTML = list_select;
+    document.getElementById("command_list"+id).innerHTML = list;
+    document.getElementById("command_container"+id).getElementsByClassName('nice-select')[0].getElementsByClassName('current')[0].innerHTML = 'Pilih Salah Satu';
+    document.getElementById("command_container"+id).getElementsByClassName('nice-select')[0].getElementsByClassName('list')[0].innerHTML = list_select;
   }
 }
 </script>

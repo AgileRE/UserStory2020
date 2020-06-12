@@ -22,6 +22,8 @@ Route::group(['prefix' => '/'], function () {
   Route::get('/{project_id}', 'ProjectController@show')->name('project.show');
   Route::post('/update/{id}', 'ProjectController@update')->name('project.update');
   Route::get('/delete/{id}', 'ProjectController@destroy')->name('project.destroy');
+  //generate user interface
+  Route::get('/generate/{id}', 'ProjectController@generateUI')->name('project.generate');
   // kelola fitur
   Route::group(['prefix' => '/{project_id}'], function () {
     Route::post('/create', 'FeatureController@store')->name('feature.store');
