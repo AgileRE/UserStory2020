@@ -136,6 +136,7 @@ class FeatureController extends Controller
       $feature = $db->collection('projects')->document($project_id)->collection('userStories')
                  ->document($id)->snapshot()->data();
       $feature['name'] = $request->name;
+      $feature['role'] = $request->role;
       $feature['description'] = $request->description;
       //simpan data
       $db->collection('projects')->document($project_id)->collection('userStories')->document($id)->set($feature);

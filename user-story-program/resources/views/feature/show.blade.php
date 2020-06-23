@@ -189,7 +189,7 @@
                                           </div>
                                           <div class="form-group">
                                             <label class="text-body">Peran dalam User Story</label>
-                                            <input type="text" name="name" value="{{$feature['role']}}" class="form-control">
+                                            <input type="text" name="role" value="{{$feature['role']}}" class="form-control">
                                           </div>
                                           <div class="form-group">
                                             <label class="text-body">Deskripsi Project</label>
