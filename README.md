@@ -49,6 +49,21 @@ php artisan serve
 
 6. Buka http://127.0.0.1:8000/ pada browser anda
 
+## Cara Kerja Aplikasi
+
+1. Langkah pertama yang dilakukan yaitu membuat project. Dengan masuk ke tampilan pembuatan project yang akan dibuat kemudian memasukan nama project serta deskripsi project yang diinginkan. Setelah selesai  mengisi kolom nama dan deskripsi, pengguna dapat menekan tombol “simpan” agar data nama dan deskripsi project baru dapat tersimpan. Pengguna juga dapat menekan tombol “batal” bila ingin membatalkan pembuatan project baru.
+
+2. Langkah selanjutnya yaitu pembuatan fitur dari project yang akan dibuat. Masuk ke tampilan pembuatan fitur dari project yang akan dibuat kemudian memasukan nama user story, peran dalam user story, dan deskripsi user story pada kolom yang tersedia. Setelah selesai  mengisi kolom - kolom tersebut, pengguna dapat menekan tombol “simpan” agar data yang baru dimasukkan dapat tersimpan. Pengguna juga dapat menekan tombol “batal” bila ingin membatalkan pembuatan fitur dari project.
+
+3. Langkah terakhir yaitu penambahan skenario dari project yang akan dibuat. Masuk ke tampilan penambahan skenario dari project yang akan dibuat kemudian memasukan nama dari skenario project pada kolom yang tersedia. Setelah selesai  mengisi kolom nama tersebut, pengguna dapat menekan tombol “simpan” agar data yang baru dimasukkan dapat tersimpan. Pengguna juga dapat menekan tombol “batal” bila ingin membatalkan penambahan skenario dari project.
+ 
+Setelah selesai memberi nama skenario project, pengguna kemudian menambahkan step atau langkah dari skenario project tersebut. Dengan mengisi kolom tipe step,command,parameter dan value pada kolom yang tersedia. Setelah selesai  mengisi kolom - kolom tersebut, pengguna dapat menekan tombol “simpan” agar data yang baru dimasukkan dapat tersimpan. Pengguna juga dapat menekan tombol “batal” bila ingin membatalkan penambahan step skenario dari project. Terdapat beberapa batasan pada sistem yang peneliti rancang. Salah satunya yaitu, tidak semua skenario pada cheat sheet behat tersedia dalam sistem yang peneliti rancang.
+
+Terdapat fitur untuk mengedit skenario dari project yang akan dibuat. Misal bila pengguna ingin menentukan penambahan skenario project untuk output “gagal” atau “sukses”.
+
+Setelah selesai memenuhi langkah - langkah yang harus dikerjakan pengguna maka, user interface dari project yang dibuat pengguna siap untuk di unduh dalam format .zip.
+
+
 
 ## Build With
 
