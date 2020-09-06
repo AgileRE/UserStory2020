@@ -391,7 +391,7 @@ class ProjectController extends Controller
         //tambah button
         $data[$i]['button_html']='';
         for ($j=0; $j <count($data[$i]['button']) ; $j++) {
-          $data[$i]['button_html'] = $data[$i]['button_html'].'<a class="btn btn btn-success mb-2" href="'.$data[$i]['button'][$j]['url'].'" role="button">'.$data[$i]['button'][$j]['name'].'</a>';
+          $data[$i]['button_html'] = $data[$i]['button_html'].'<a class="btn btn btn-success mb-2 mr-2" href="'.$data[$i]['button'][$j]['url'].'" role="button">'.$data[$i]['button'][$j]['name'].'</a>';
         }
         //menyatukan isi html nya
         $data[$i]['html'] = '<!DOCTYPE html>'

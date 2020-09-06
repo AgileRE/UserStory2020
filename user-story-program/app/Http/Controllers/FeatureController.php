@@ -159,6 +159,6 @@ class FeatureController extends Controller
       //hapus data
       $feature = $db->collection('projects')->document($project_id)->collection('userStories')->document($id)->delete();
       //return
-      return redirect()->route('feature.index',['project_id'=>$project_id])->with(['success'=>'User Story berhasil dihapus']);
+      return redirect()->route('project.show',['project_id'=>$project_id])->with(['success'=>'User Story berhasil dihapus']);
     }
 }
